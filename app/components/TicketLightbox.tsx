@@ -73,11 +73,26 @@ export default function TicketLightbox() {
   const [comments, setComments] = useState("");
   const [commentsDraft, setCommentsDraft] = useState("");
 
+  const [commentsDraft, setCommentsDraft] = useState("");
+  const [submittedComments, setSubmittedComments] = useState<
+    Array<{ name: string; content: string }>
+  >([]);
+
   const assignee = "Luke Skywalker";
   const reporter = "Darth Vader";
   const dueDate = "2026-02-15";
 
   const labels = ["The Force", "The Empire"];
+
+  const handleSaveComment = () => {
+    if (commentsDraft.trim()) {
+      setSubmittedComments((prev) => [
+        ...prev,
+        { name: assignee, content: commentsDraft },
+      ]);
+      setCommentsDraft("");
+    }
+  };
 
   return (
     <div className="relative mx-auto flex max-w-5xl items-center justify-center">
