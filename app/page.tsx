@@ -1,65 +1,75 @@
-import Image from "next/image";
+import TicketLightbox from "./components/TicketLightbox";
+
+const tickets = [
+  "AB-101",
+  "AB-118",
+  "AB-127",
+  "AB-134",
+  "AB-145",
+  "AB-152",
+  "AB-163",
+  "AB-178",
+  "AB-186",
+  "AB-193",
+  "AB-207",
+  "AB-219",
+];
+
+function HeaderStub() {
+  return (
+    <div className="w-full border-b border-zinc-200 bg-white/80">
+      <div className="mx-auto flex max-w-6xl items-center px-6 py-4 text-zinc-300">
+        <div className="text-xl font-semibold uppercase tracking-[0.18em]">
+          Ticket Work System
+        </div>
+        <div className="mx-10 flex-1">
+          <div className="flex h-10 w-full items-center rounded-full border border-zinc-200 bg-white/70 px-4 text-sm text-zinc-300">
+            Search
+          </div>
+        </div>
+        <div className="ml-auto h-10 w-10 overflow-hidden rounded-full border border-zinc-200 bg-zinc-100">
+          <img
+            src="/Luke.png"
+            alt="User profile"
+            className="h-full w-full object-cover"
+          />
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function TicketList() {
+  return (
+    <div className="mx-auto mt-6 max-w-6xl px-6 text-zinc-300">
+      <div className="grid grid-cols-1 gap-3 text-sm font-medium text-zinc-300">
+        {tickets.map((ticket) => (
+          <span
+            key={ticket}
+            className="w-full rounded-full border border-zinc-200 bg-white/60 px-4 py-2 text-left"
+          >
+            {ticket}
+          </span>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function BackgroundStub() {
+  return (
+    <div className="pointer-events-none absolute inset-0">
+      <HeaderStub />
+      <TicketList />
+    </div>
+  );
+}
 
 export default function Home() {
   return (
-    <div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex min-h-screen w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
-        </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
-      </main>
+    <div className="relative min-h-screen bg-white px-6 py-16 font-sans text-zinc-900">
+      <BackgroundStub />
+      <TicketLightbox />
     </div>
   );
 }
