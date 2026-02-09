@@ -38,11 +38,26 @@ export default function TicketLightbox() {
   const [description, setDescription] = useState("");
   const [descriptionDraft, setDescriptionDraft] = useState("");
 
+  const [commentsDraft, setCommentsDraft] = useState("");
+  const [submittedComments, setSubmittedComments] = useState<
+    Array<{ name: string; content: string }>
+  >([]);
+
   const assignee = "Luke Skywalker";
   const reporter = "Darth Vader";
   const dueDate = "2026-02-15";
 
   const labels = ["The Force", "The Empire"];
+
+  const handleSaveComment = () => {
+    if (commentsDraft.trim()) {
+      setSubmittedComments((prev) => [
+        ...prev,
+        { name: assignee, content: commentsDraft },
+      ]);
+      setCommentsDraft("");
+    }
+  };
 
   return (
     <div className="relative mx-auto flex max-w-5xl items-center justify-center">
@@ -102,8 +117,37 @@ export default function TicketLightbox() {
                   </div>
                   <textarea
                     className="mt-3 h-24 w-full resize-none rounded-lg border border-zinc-200 bg-white px-4 py-3 text-sm text-zinc-700 focus:outline-none"
-                    placeholder=""
+                    placeholder="Add your comment..."
+                    value={commentsDraft}
+                    onChange={(event) => setCommentsDraft(event.target.value)}
                   />
+                  <button
+                    type="button"
+                    onClick={handleSaveComment}
+                    className="mt-3 rounded-lg bg-green-600 px-4 py-2 text-xs font-medium text-white hover:bg-green-700"
+                  >
+                    Save
+                  </button>
+                  {submittedComments.length > 0 && (
+                    <div className="mt-6 space-y-4">
+                      {submittedComments.map((comment, index) => (
+                        <div
+                          key={index}
+                          className="rounded-lg border border-zinc-200 bg-zinc-50 p-4"
+                        >
+                          <div className="text-sm font-semibold text-zinc-900">
+                            {comment.name}
+                          </div>
+                          <div
+                            className="mt-2 text-sm text-zinc-700"
+                            dangerouslySetInnerHTML={{
+                              __html: comment.content,
+                            }}
+                          />
+                        </div>
+                      ))}
+                    </div>
+                  )}
                 </div>
               </div>
             </div>
