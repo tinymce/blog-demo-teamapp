@@ -1,8 +1,7 @@
 "use client";
 
 import { Editor } from "@tinymce/tinymce-react";
-import { useEffect, useState } from "react";
-import dynamic from "next/dynamic";
+import { useState } from "react";
 
 const tinymceApiKey = process.env.NEXT_PUBLIC_TINYMCE_API_KEY;
 
@@ -68,10 +67,6 @@ export default function TicketLightbox() {
   const [isEditingTitle, setIsEditingTitle] = useState(false);
 
   const [description, setDescription] = useState("");
-  const [descriptionDraft, setDescriptionDraft] = useState("");
-
-  const [comments, setComments] = useState("");
-  const [commentsDraft, setCommentsDraft] = useState("");
 
   const [commentsDraft, setCommentsDraft] = useState("");
   const [submittedComments, setSubmittedComments] = useState<
@@ -136,7 +131,6 @@ export default function TicketLightbox() {
                   key="description-editor"
                   initialValue={description}
                   onChange={(content) => {
-                    setDescriptionDraft(content);
                     setDescription(content);
                   }}
                 />
@@ -151,12 +145,38 @@ export default function TicketLightbox() {
                   </div>
                   <EditorClient
                     key="comments-editor"
-                    initialValue={comments}
+                    initialValue={commentsDraft}
                     onChange={(content) => {
                       setCommentsDraft(content);
-                      setComments(content);
                     }}
                   />
+                  <button
+                    type="button"
+                    onClick={handleSaveComment}
+                    className="mt-3 rounded-lg bg-green-600 px-4 py-2 text-xs font-medium text-white hover:bg-green-700"
+                  >
+                    Save
+                  </button>
+                  {submittedComments.length > 0 && (
+                    <div className="mt-6 space-y-4">
+                      {submittedComments.map((comment, index) => (
+                        <div
+                          key={index}
+                          className="rounded-lg border border-zinc-200 bg-zinc-50 p-4"
+                        >
+                          <div className="text-sm font-semibold text-zinc-900">
+                            {comment.name}
+                          </div>
+                          <div
+                            className="mt-2 text-sm text-zinc-700"
+                            dangerouslySetInnerHTML={{
+                              __html: comment.content,
+                            }}
+                          />
+                        </div>
+                      ))}
+                    </div>
+                  )}
                 </div>
               </div>
             </div>
