@@ -1,4 +1,6 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+This is a [Next.js](https://nextjs.org) TinyMCE project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app). It's a team collaboration app example with a working lightbox, ready for TinyMCE in the Comments and Description sections.
+
+![An example of a team collaboration app ready for TinyMCE](public/TeamCollaborationAppinReact.png)
 
 ## Getting Started
 
