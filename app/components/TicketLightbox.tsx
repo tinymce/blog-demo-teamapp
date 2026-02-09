@@ -1,12 +1,44 @@
 "use client";
 
-import { useState } from "react";
+import { Editor } from "@tinymce/tinymce-react";
+import { useEffect, useState } from "react";
+import dynamic from "next/dynamic";
+
+const tinymceApiKey = process.env.NEXT_PUBLIC_TINYMCE_API_KEY;
+
+type EditorClientProps = {
+  initialValue?: string,
+  onChange?: (content: string) => void,
+};
 
 const labelColorClasses = [
   "bg-blue-100 text-blue-700",
   "bg-red-100 text-red-700",
   "bg-green-100 text-green-700",
 ];
+
+function EditorClient({
+  initialValue,
+  onChange,
+}: EditorClientProps) {
+  return (
+    <Editor
+      apiKey={tinymceApiKey}
+      initialValue={initialValue}
+      tinymceScriptSrc={`https://cdn.tiny.cloud/1/${tinymceApiKey}/tinymce/8/tinymce.min.js`}
+      init={{
+        height: 300,
+        menubar: false,
+        plugins: "lists link image table code help wordcount",
+        toolbar: "undo redo | formatselect | bold italic emoticons | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image code",
+        toolbar_mode: 'floating',
+      }}
+      onEditorChange={(content) => {
+        onChange?.(content);
+      }}
+    />
+  );
+}
 
 function LabelsField({ labels }: { labels: string[] }) {
   return (
@@ -37,6 +69,9 @@ export default function TicketLightbox() {
 
   const [description, setDescription] = useState("");
   const [descriptionDraft, setDescriptionDraft] = useState("");
+
+  const [comments, setComments] = useState("");
+  const [commentsDraft, setCommentsDraft] = useState("");
 
   const assignee = "Luke Skywalker";
   const reporter = "Darth Vader";
@@ -82,14 +117,13 @@ export default function TicketLightbox() {
                 <label className="text-xs font-semibold uppercase tracking-[0.18em] text-zinc-500">
                   Description
                 </label>
-                <textarea
-                  className="mt-3 h-28 w-full resize-none rounded-lg border border-zinc-200 bg-white px-4 py-3 text-sm text-zinc-700 focus:outline-none"
-                  value={descriptionDraft}
-                  onChange={(event) =>
-                    setDescriptionDraft(event.target.value)
-                  }
-                  onBlur={() => setDescription(descriptionDraft.trim())}
-                  placeholder={description ? "" : "Luke, I am your father. Join me, and we will rule the galaxy."}
+                <EditorClient
+                  key="description-editor"
+                  initialValue={description}
+                  onChange={(content) => {
+                    setDescriptionDraft(content);
+                    setDescription(content);
+                  }}
                 />
               </div>
               <div className="border-t border-zinc-200 pt-6">
@@ -100,9 +134,13 @@ export default function TicketLightbox() {
                   <div className="text-sm font-medium text-zinc-700">
                     Comments
                   </div>
-                  <textarea
-                    className="mt-3 h-24 w-full resize-none rounded-lg border border-zinc-200 bg-white px-4 py-3 text-sm text-zinc-700 focus:outline-none"
-                    placeholder=""
+                  <EditorClient
+                    key="comments-editor"
+                    initialValue={comments}
+                    onChange={(content) => {
+                      setCommentsDraft(content);
+                      setComments(content);
+                    }}
                   />
                 </div>
               </div>
