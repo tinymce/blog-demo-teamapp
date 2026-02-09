@@ -16,6 +16,20 @@ const labelColorClasses = [
   "bg-green-100 text-green-700",
 ];
 
+const fakeUsers = ["Leia", "Han", "Chewie", "Lando"];
+
+function mentions_fetch(query: any, success: (items: any[]) => void) {
+  const term =
+    typeof query === "string"
+      ? query
+      : query && (query.term || query.query || "");
+  const q = (term || "").toLowerCase();
+  const results = fakeUsers
+    .filter((u) => u.toLowerCase().includes(q))
+    .map((u) => ({ id: u, name: u }));
+  success(results);
+}
+
 function EditorClient({
   initialValue,
   onChange,
@@ -28,9 +42,11 @@ function EditorClient({
       init={{
         height: 300,
         menubar: false,
-        plugins: "lists link image table code help wordcount",
-        toolbar: "undo redo | formatselect | bold italic emoticons | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image code",
+        plugins: "autolink linkchecker emoticons mentions lists link image table code help wordcount",
+        toolbar: "emoticons | undo redo | formatselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image code",
         toolbar_mode: 'floating',
+        mentions_fetch: mentions_fetch,
+        content_style: ".mention { color: #1d4ed8; font-weight: 700; }",
       }}
       onEditorChange={(content) => {
         onChange?.(content);
@@ -129,7 +145,6 @@ export default function TicketLightbox() {
                 </label>
                 <EditorClient
                   key="description-editor"
-                  initialValue={description}
                   onChange={(content) => {
                     setDescription(content);
                   }}
@@ -145,7 +160,6 @@ export default function TicketLightbox() {
                   </div>
                   <EditorClient
                     key="comments-editor"
-                    initialValue={commentsDraft}
                     onChange={(content) => {
                       setCommentsDraft(content);
                     }}
