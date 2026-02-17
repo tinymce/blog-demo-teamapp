@@ -47,6 +47,7 @@ function EditorClient({
         toolbar_mode: 'floating',
         mentions_fetch: mentions_fetch,
         content_style: ".mention { color: #1d4ed8; font-weight: 700; }",
+        branding: false,
       }}
       onEditorChange={(content) => {
         onChange?.(content);
